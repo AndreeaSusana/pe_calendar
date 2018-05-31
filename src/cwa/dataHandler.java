@@ -19,6 +19,7 @@ import java.util.Map;
 import javax.net.ssl.HttpsURLConnection;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 
@@ -92,7 +93,7 @@ public class dataHandler {
             response="";
         }
         
-        System.out.println("response: " + response.toString());
+        //System.out.println("response: " + response.toString());
         try{
             //Read JSON response and print
             JSONParser parser = new JSONParser();
@@ -106,7 +107,7 @@ public class dataHandler {
         return null;
     }
     
-      private static String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException{
+    private static String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException{
         StringBuilder result = new StringBuilder();
         boolean first = true;
         for(Map.Entry<String, String> entry : params.entrySet()){
@@ -123,25 +124,44 @@ public class dataHandler {
         return result.toString();
     }
     
+    private static Object getKey(JSONArray array, String key)
+    {
+        Object value = null;
+        for (int i = 0; i < array.size(); i++)
+        {
+            JSONObject item = (JSONObject) array.get(i);
+            if (item.keySet().contains(key))
+            {
+                value = item.get(key);
+                break;
+            }
+        }
+
+        return value;
+    }
+    
+    
     public static void getUsers() throws Exception {
         String callURL = "info.php?users";
 	JSONArray output = HandleRequest(callURL, GET);
         
-        System.out.println(output.get(0).toString());
-        
+        System.out.println(output.get(0).toString()); 
     }
     
-    public static void login(String name,String password) throws Exception {
+    public static boolean login(String name,String password) throws Exception {
         String callURL = "login.php?login=1";
+        HashMap<String, String> credentials = new HashMap<String, String>();
+        credentials.put("name", name);
+        credentials.put("passwort", password);
         
-        HashMap<String, String> hmap = new HashMap<String, String>();
-        hmap.put("name", name);
-        hmap.put("passwort", password);
-
+        JSONArray output = HandlePOST_Request(callURL, credentials);
         
-        JSONArray output = HandlePOST_Request(callURL, hmap);
-        
-        System.out.println(output.get(0).toString());
+        // System.out.println(getKey(output,"status"));
+        if((boolean) getKey(output,"status")){
+            SessionHandler.setUsername((String)getKey(output,"Name"));            
+            return true;
+        }
+        return false;        
     }
 }
 

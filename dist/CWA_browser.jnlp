@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="CWA.jar" size="11207" download="eager" />
+    <jar href="CWA.jar" size="12342" download="eager" />
     <jar href="lib\json-simple-1.1.1.jar" size="23737" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="cwa.Login"  name="CWA" >
