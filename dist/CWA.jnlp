@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="CWA.jnlp">
+  <information>
+    <title>CWA</title>
+    <vendor>cklose</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="CWA.jar" size="11207" download="eager" />
+    <jar href="lib\json-simple-1.1.1.jar" size="23737" download="eager" />
+  </resources>
+  <application-desc main-class="cwa.Login"  name="CWA" >
+  </application-desc>
+  <update check="always"/>
+</jnlp>
